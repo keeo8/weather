@@ -1,0 +1,15 @@
+from pyowm.owm import OWM
+import geocoder
+owm = OWM('ece10c632b42ca1c9c2e9f29f403edce')
+mgr = owm.weather_manager()
+place = input("What town and state? (ex. Philadephia, PA)")
+
+g = geocoder.osm(place)
+lon = g.x
+lat = g.y
+
+one_call = mgr.one_call(lat, lon)
+c = one_call.forecast_daily[0].temperature('fahrenheit').get('feels_like_morn',None)
+weather = mgr.weather_at_coords(lat, lon).weather
+
+print(weather.detailed_status, c)
